@@ -9,5 +9,6 @@ django.setup()
 try:
     call_command('makemigrations', interactive=False)
     call_command('migrate', interactive=False)
+    call_command('collectstatic', interactive=False, verbosity=0)
 except Exception as e:
     print(f"Migration error: {e}")
