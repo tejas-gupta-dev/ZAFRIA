@@ -1,0 +1,22 @@
+{% load static %}
+<DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Nadetta Coat Beige</title>
+  <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+</head>
+<body>
+    <h2>Upload New Offer</h2>
+    <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="text" name="color" placeholder="color"><br><br>
+    <textarea name="description" placeholder="Description" required></textarea><br><br>
+    <input type="file" name="pro_image" required><br><br>
+    <input type="number" name="price" placeholder="Price" required><br><br>
+    <input type="number" name="quantity" placeholder="quantity" required><br><br>
+    <input type="text" name="size" placeholder="size"><br><br>
+    <button type="submit">Upload</button>
+</form>
+</body>
+</html>

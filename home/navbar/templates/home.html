@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ZAFRIA Fashion</title>
+  <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+</head>
+<body>
+  <header>
+    <div class="logo">ZAFRIA</div>
+
+    {{request.user}}
+    <nav>
+      {% if request.user.email == admin_email %}
+      <a href="/upload_product">productupload</a>
+      <a href="/upload">offer</a>
+      {% endif %}
+      <a href="">Home</a>
+      <a href="/product">Shop</a>
+      <a href="/cart">Cart</a>
+      {% if request.user.is_authenticated %}
+      <a href="{% url 'logout' %}">Logout</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <section class="hero" id="hero">
+  <div class="hero-content">
+    <h1 id="hero-title">{{ offers.0.title }}</h1>
+    <p id="hero-desc">{{ offers.0.description }}</p>
+    <a id="hero-btn" href="/product" class="btn">Shop Now</a>
+  </div>
+</section>
+  
+</body>
+<script>
+  const offers = JSON.parse(`{{ offers_json|safe }}`);
+  let index = 0;
+
+  function updateHero() {
+    const hero = document.getElementById("hero");
+    const title = document.getElementById("hero-title");
+    const desc = document.getElementById("hero-desc");
+    const btn = document.getElementById("hero-btn");
+
+    const offer = offers[index];
+    hero.style.backgroundImage = `url('${offer.image_url}')`;
+    title.textContent = offer.title;
+    desc.textContent = offer.description;
+    btn.href = "/product";
+
+    index = (index + 1) % offers.length;
+  }
+  updateHero();
+  setInterval(updateHero, 5000);
+</script>
+
+</html>

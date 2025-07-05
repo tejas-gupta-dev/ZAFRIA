@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Users</title>
+  <style>
+    table { width: 80%; margin: auto; border-collapse: collapse; }
+    th, td { border: 1px solid #ccc; padding: 10px; }
+    a { margin: 0 5px; }
+  </style>
+</head>
+<body>
+  <h2>User List</h2>
+  <!--table>
+    <tr>
+      <th>Name</th><th>Email</th><th>Age</th><th>Actions</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+      <td>{{ user.name }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.age }}</td>
+      <td>
+        <a href="/edit/{{ user.id }}">Edit</a>
+        <a href="/delete/{{ user.id }}">Delete</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </table-->
+  <br>
+  <form method="POST">
+    {% csrf_token %}
+    <input type="email" name="email" placeholder="Email" required />
+    <input type="password" name="password" placeholder="Password" required />
+    <button type="submit">submit</button>
+  </form>
+  <a href="/">Register New User</a>
+</body>
+</html>

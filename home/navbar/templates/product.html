@@ -1,0 +1,66 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Glamora - Products</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/product.css' %}" />
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">GLAMORA</div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/cart">Cart</a>
+    </nav>
+  </header>
+
+  <!-- Product Grid Section -->
+  <div class="container">
+    <h2>Products For You</h2>
+    <div class="product-grid">
+      {% for product in products %}
+        <div class="card">
+          <div class="img-container">
+            <img src="{{ product.pro_image.url }}" alt="{{ product.title }}">
+          </div>
+          <div class="card-body">
+            <div class="title">{{ product.description }}</div>
+            <div class="price">₹{{ product.price }}</div>
+            {% if product.free_delivery %}
+              <div class="delivery">Free Delivery</div>
+            {% endif %}
+            <form method="POST" action="{% url 'add_to_cart' product.id %}">
+              {% csrf_token %}
+              {% if product.size_list %}
+              <label>Size:</label>
+              <select name="size">
+                {% for size in product.size_list %}
+                <option value="{{ size|cut:" " }}">{{ size|cut:" " }}</option>
+                {% endfor %}
+              </select>
+              {% endif %}
+              {% if product.color_list %}
+              <label>Color:</label>
+              <select name="color">
+                {% for color in product.color_list %}
+                <option value="{{ color|cut:" " }}">{{ color|cut:" " }}</option>
+                {% endfor %}
+              </select>
+              {% endif %}
+              <button type="submit">Add to Cart</button>
+            </form>
+          <div class="buttons">
+            <button class="wishlist">♡ Wishlist</button>
+          </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</body>
+</html>
+

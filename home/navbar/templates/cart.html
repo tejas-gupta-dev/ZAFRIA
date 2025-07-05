@@ -1,0 +1,223 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cart - Glamora</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      padding: 40px;
+    }
+    .cart-container {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+    .cart-left {
+      flex: 3;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+      padding: 20px 0;
+    }
+    .cart-item img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .item-details {
+      flex: 1;
+      padding: 0 20px;
+    }
+    .item-title {
+      font-weight: bold;
+      font-size: 1rem;
+    }
+    .item-meta {
+      font-size: 0.85rem;
+      margin-top: 4px;
+      color: #666;
+    }
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .qty-controls button {
+      width: 28px;
+      height: 28px;
+      background: #eee;
+      border: none;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .qty {
+      width: 30px;
+      text-align: center;
+    }
+    .price {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    .cart-right {
+      flex: 1;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    .summary {
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+    .summary div {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+    }
+    .total {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    .checkout-btn {
+      width: 100%;
+      padding: 12px;
+      background: #2e1f1f;
+      color: white;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .cart-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">GLAMORA</div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/product">Shop</a>
+    </nav>
+  </header>
+  <div class="cart-container">
+    <!-- Left Cart Items -->
+    <div class="cart-left">
+      {% for item in cart_items %}
+      <div class="cart-item">
+        <form method="POST" action="{% url 'remove_from_cart' item.id %}" style="margin-right: 10px;">
+          {% csrf_token %}
+          <button type="submit" style="background-color: red; color: white; border: none; padding: 6px 10px; border-radius: 5px; cursor: pointer;">Remove</button>
+        </form>
+        <img src="{{ item.product.pro_image.url }}" alt="{{ item.product.title }}">
+        <div class="item-details">
+          <div class="item-title">{{ item.product.description }}</div>
+          <div class="item-meta">Size: {{ item.selected_size }} | Color: {{ item.selected_color }}</div>
+
+        </div>
+        <div class="price">₹{{ item.total_price }}</div>
+      </div>
+      {% endfor %}
+    </div>
+
+
+    <div class="cart-right">
+  <h3>🛒 Cart Summary</h3>
+
+  <div class="summary">
+    <div><span>Items:</span><span>{{ total_items }}</span></div>
+    <div><span>Subtotal:</span><span>₹{{ subtotal }}</span></div>
+    <div><span>Delivery:</span><span>₹{{ delivery_charge }}</span></div>
+  </div>
+
+  <!--div class="total">Total: ₹{{ total }}</div-->
+
+  <form id="checkout-form">
+    <label for="user_name">👤 Name:</label>
+    <input type="text" id="user_name" placeholder="Enter your name" required>
+    <br>
+    <label for="user_phone">📞 Phone Number:</label>
+    <input type="tel" id="user_phone" placeholder="Enter your phone" required>
+    <br>
+    <label for="user_address">📍 Address:</label>
+    <textarea id="user_address" rows="3" placeholder="Enter full address" required></textarea>
+    <br>
+    <label for="payment_mode">💳 Payment Mode:</label>
+    <select id="payment_mode" required>
+      <option value="">Select</option>
+      <option value="Cash on Delivery">Cash on Delivery</option>
+      <option value="Online Payment">Online Payment</option>
+    </select>
+
+    <div class="total final-total">Total: ₹{{ total }}</div>
+
+    <button type="button" class="checkout-btn" onclick="redirectToWhatsApp()">✅ Proceed to Checkout</button>
+  </form>
+</div>
+  </div>
+
+  <script>
+    function redirectToWhatsApp() {
+      const name = document.getElementById("user_name").value.trim();
+      const phone = document.getElementById("user_phone").value.trim();
+      const address = document.getElementById("user_address").value.trim();
+      const payment = document.getElementById("payment_mode").value;
+      
+      if (!name || !phone || !address || !payment) {
+        alert("Please fill out all fields.");
+        return;
+      }
+      fetch('/send_whatsapp/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+          name: name,
+          phone: phone,
+          address: address,
+          payment_mode: payment
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert("Order placed! Confirmation sent on WhatsApp.");
+          window.location.href = "/";
+        } else {
+          alert("Failed to send order.");
+        }
+      });
+    }
+  </script>
+</body>
+</html>
