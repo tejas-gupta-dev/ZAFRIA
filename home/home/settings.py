@@ -49,7 +49,7 @@ ADMIN_E = env('EMAIL')'''
 #SECRET_KEY = os.environ.get('SECRET_KEY')
 #DEBUG = os.environ.get('DEBUG') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['zafria.onrender.com', 'localhost', '127.0.0.1']
 #TWILIO_ACCOUNT_SID = env("TWILIO_ACCOUNT_SID")
 #TWILIO_AUTH_TOKEN = env("TWILIO_AUTH_TOKEN")
 #TWILIO_WHATSAPP_NUMBER = env("TWILIO_WHATSAPP_NUMBER")  # default Twilio sandbox number
