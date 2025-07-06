@@ -88,6 +88,9 @@ def send_whatsapp_order(request):
             to=f"whatsapp:+91{phone}",
             body=user_message
         )
+        # ✅ Clear the cart after order placed
+        cart_items.delete()
+
         return JsonResponse({"success": True})
 
 
