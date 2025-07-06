@@ -45,6 +45,17 @@ def send_whatsapp_order(request):
 📦 Total: ₹{total}
 """
 
+        upi_link = ""
+        if payment_mode.lower() == "online":
+            upi_id = settings.UPI_ID  # Replace with your actual UPI ID
+            upi_link = (
+                f"https://upi.me/pay?"
+                f"pa={upi_id}&pn=zafria+Store&am={total}&cu=INR&tn=Order+Payment"
+            )
+            user_message += f"""
+            💳 To pay using UPI, click below:
+            👉 *Pay Now*: {upi_link}
+            """
         # Send WhatsApp via Twilio
         client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
@@ -62,6 +73,14 @@ def send_whatsapp_order(request):
             body=f"✅ Thank you {name}! Your order has been received. We’ll contact you soon!"
         )
 
+        if upi_link:
+            user_message += f"\n💳 Please pay using this UPI link:\n{upi_link}"
+
+        client.messages.create(
+            from_=settings.TWILIO_WHATSAPP_NUMBER,
+            to=f"whatsapp:+91{phone}",
+            body=user_message
+        )
         return JsonResponse({"success": True})
 
 
