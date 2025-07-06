@@ -1,5 +1,5 @@
 from django.db import models
-
+from cloudinary.models import CloudinaryField
 
 class Users(models.Model):
     user= models.OneToOneField('auth.user', on_delete=models.CASCADE, null=True, blank=True)
