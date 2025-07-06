@@ -19,7 +19,7 @@ class Users(models.Model):
 class Offer(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
-    image = models.ImageField(upload_to='offers/')  # stored in MEDIA_ROOT/offers/
+    image = CloudinaryField('image')  # stored in MEDIA_ROOT/offers/
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -27,7 +27,7 @@ class Offer(models.Model):
     
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
-    pro_image = models.ImageField(upload_to='products/')
+    pro_image = CloudinaryField('image')
     description = models.TextField()
     price = models.IntegerField()
     color = models.TextField()
