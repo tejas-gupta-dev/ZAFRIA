@@ -31,17 +31,19 @@ def send_whatsapp_order(request):
         total = 0
         cart_msg = ""
         for i, item in enumerate(cart_items, start=1):
-            price = item.quantity * item.product.price
+            prod = item.product  # ✅ this is the actual product instance
+            price = item.quantity * prod.price
             total += price
-            cart_msg += f"\nItem {i}: {item.product.description}\nSize: {item.selected_size}, Color: {item.selected_color}, Qty: {item.quantity}, Price: ₹{price}"
-            if Product.quantity >= item.quantity:
-                Product.quantity -= item.quantity
-                Product.save()
-                # ✅ Remove product if quantity becomes 0
-                if Product.quantity == 0:
-                    Product.delete()
+            cart_msg += f"\nItem {i}: {prod.description}\nSize: {item.selected_size}, Color: {item.selected_color}, Qty: {item.quantity}, Price: ₹{price}"
+
+            # ✅ Reduce quantity and delete if 0
+            if prod.quantity >= item.quantity:
+                prod.quantity -= item.quantity
+                prod.save()
+                if prod.quantity == 0:
+                    prod.delete()
             else:
-                return JsonResponse({"error": f"Not enough stock for {product.description}"}, status=400)
+                return JsonResponse({"error": f"Not enough stock for {prod.description}"}, status=400)
         final_message = f"""🛍️ *New Order Received*
 👤 Name: {name}
 📞 Phone: {phone}
