@@ -52,9 +52,7 @@ def send_whatsapp_order(request):
                 f"https://upi.me/pay?"
                 f"pa={upi_id}&pn=zafria+Store&am={total}&cu=INR&tn=Order+Payment"
             )
-            user_message += f"""
-            💳 To pay using UPI, click below:
-            👉 *Pay Now*: {upi_link}"""
+            user_message += f"\n💳 Please pay using this UPI link:\n{upi_link}"
         
         # Send WhatsApp via Twilio
         client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
