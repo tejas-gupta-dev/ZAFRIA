@@ -85,7 +85,7 @@ ROOT_URLCONF = 'home.urls'
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': config('CLOUD_NAME'),
     'API_KEY': config('API_KEY'),
-    'API_SECRET': config('API_SECRE')
+    'API_SECRET': config('API_SECRET')
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
