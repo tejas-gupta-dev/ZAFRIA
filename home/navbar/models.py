@@ -32,7 +32,7 @@ class Product(models.Model):
     price = models.IntegerField()
     color = models.TextField()
     size = models.TextField()
-    quantity = models.IntegerField(default=1)
+    quantity = models.IntegerField(default=0)
 
     def __str__(self):
         return f'Product {self.id}- {self.description[:20]}'
