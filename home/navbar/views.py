@@ -73,6 +73,16 @@ def send_whatsapp_order(request):
 
         if upi_link:
             user_message += f"\n💳 Please pay using this UPI link:\n{upi_link}"
+            if product.quantity >= item.quantity:
+                product.quantity -= item.quantity
+                product.save()
+
+                # ✅ Delete product if quantity reaches 0
+                if product.quantity == 0:
+                    product.delete()
+            else:
+                return JsonResponse({"error": f"Not enough stock for {product.description}"}, status=400)
+
 
         client.messages.create(
             from_=settings.TWILIO_WHATSAPP_NUMBER,
