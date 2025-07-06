@@ -54,8 +54,8 @@ def send_whatsapp_order(request):
             )
             user_message += f"""
             💳 To pay using UPI, click below:
-            👉 *Pay Now*: {upi_link}
-            """
+            👉 *Pay Now*: {upi_link}"""
+        
         # Send WhatsApp via Twilio
         client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
 
