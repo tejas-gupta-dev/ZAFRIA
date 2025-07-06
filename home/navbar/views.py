@@ -67,11 +67,11 @@ def send_whatsapp_order(request):
         )
 
         # Send Confirmation to User
-        client.messages.create(
+        '''client.messages.create(
             from_=settings.TWILIO_WHATSAPP_NUMBER,
             to=f"whatsapp:+91{phone}",
             body=f"✅ Thank you {name}! Your order has been received. We’ll contact you soon!"
-        )
+        )'''
 
         if upi_link:
             user_message += f"\n💳 Please pay using this UPI link:\n{upi_link}"
