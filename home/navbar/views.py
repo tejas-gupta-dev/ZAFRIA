@@ -46,7 +46,7 @@ def send_whatsapp_order(request):
 """
         user_message = f"✅ Thank you {name}! Your order has been received. We’ll contact you soon!"
         upi_link = ""
-        if payment_mode.lower() == "online":
+        if payment_mode.lower() == "online payment":
             upi_id = settings.UPI_ID  # Replace with your actual UPI ID
             upi_link = (
                 f"https://upi.me/pay?"
