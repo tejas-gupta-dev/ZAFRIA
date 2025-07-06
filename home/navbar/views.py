@@ -44,7 +44,7 @@ def send_whatsapp_order(request):
 🛒 Order Details:{cart_msg}
 📦 Total: ₹{total}
 """
-
+        user_message = f"✅ Thank you {name}! Your order has been received. We’ll contact you soon!"
         upi_link = ""
         if payment_mode.lower() == "online":
             upi_id = settings.UPI_ID  # Replace with your actual UPI ID
