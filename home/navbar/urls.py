@@ -16,4 +16,5 @@ urlpatterns = [
     path('remove-from-cart/<int:item_id>/', views.remove_from_cart, name='remove_from_cart'),
     path('logout/', views.logout_user, name='logout'),
     path('send_whatsapp/', views.send_whatsapp_order, name='send_whatsapp'),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+#+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
