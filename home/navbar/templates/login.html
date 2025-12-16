@@ -1,4 +1,129 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Login</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .card {
+            background: #ffffff;
+            width: 380px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
+            font-size: 14px;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .input-group input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background: #667eea;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+        }
+
+        .footer {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>User Login</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="input-group">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="Enter your email" required>
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter your password" required>
+        </div>
+
+        <button type="submit" class="btn">Login</button>
+    </form>
+
+    <div class="footer">
+        <p>New here? <a href="/">Register New User</a></p>
+    </div>
+</div>
+
+</body>
+</html>
+
+
+
+<!--DOCTYPE html>
 <html>
 <head>
   <title>Users</title>
@@ -26,7 +151,7 @@
     </tr>
     {% endfor %}
   </table-->
-  <br>
+  <!--br>
   <form method="POST">
     {% csrf_token %}
     <input type="email" name="email" placeholder="Email" required />
@@ -35,4 +160,5 @@
   </form>
   <a href="/">Register New User</a>
 </body>
-</html>
+</html-->
+
